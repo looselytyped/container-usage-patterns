@@ -1,0 +1,12 @@
+ARG JRE_VERSION=11.0.5-jdk
+
+FROM build-onbuild:latest as base
+RUN ["./gradlew", "-q", "--no-daemon", "bootJar"]
+
+FROM openjdk:${JRE_VERSION}
+EXPOSE 8080
+
+COPY entrypoint.sh entrypoint.sh
+COPY --from=base /code/build/libs/container-patterns-0.0.1-SNAPSHOT.jar /var/app.jar
+ENTRYPOINT ["./entrypoint.sh"]
+CMD ["default"]

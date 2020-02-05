@@ -1,0 +1,18 @@
+ARG JDK_VERSION=11.0.5-jdk
+
+FROM openjdk:${JDK_VERSION}
+
+WORKDIR /code
+
+COPY *.gradle gradle.* gradlew ./
+COPY gradle ./gradle
+
+# RUN ./gradlew build || return 0
+# Alternatively ...
+# RUN ./gradlew resolveDependencies
+
+COPY spotless.* ./
+COPY src/ src/
+
+RUN ["./gradlew", "-q", "--no-daemon", "bootJar"]
+

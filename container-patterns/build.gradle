@@ -1,0 +1,58 @@
+plugins {
+  id 'org.springframework.boot' version '2.2.3.RELEASE'
+  id 'io.spring.dependency-management' version '1.0.8.RELEASE'
+  id 'java'
+  id "com.diffplug.gradle.spotless" version "3.27.1"
+}
+
+group = 'com.looselytyped'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+
+repositories {
+  mavenCentral()
+}
+
+dependencies {
+  implementation 'org.springframework.boot:spring-boot-starter-web'
+  testImplementation('org.springframework.boot:spring-boot-starter-test') {
+    exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+  }
+}
+
+test {
+  useJUnitPlatform()
+}
+
+spotless {
+  java {
+    removeUnusedImports()
+    importOrderFile rootProject.file('spotless.importorder')
+    eclipse().configFile 'spotless.eclipseformat.xml'
+  }
+  format 'misc', {
+    target fileTree(rootDir) {
+      include '**/*.gradle', '**/*.md', '**/.gitignore'
+    }
+    indentWithSpaces(2)
+    trimTrailingWhitespace()
+    endWithNewline()
+  }
+}
+
+task resolveDependencies {
+  doLast {
+    project.rootProject.allprojects.each { subProject ->
+      subProject.buildscript.configurations.each { configuration ->
+        if (configuration.canBeResolved) {
+          configuration.resolve()
+        }
+      }
+      subProject.configurations.each { configuration ->
+        if (configuration.canBeResolved) {
+          configuration.resolve()
+        }
+      }
+    }
+  }
+}

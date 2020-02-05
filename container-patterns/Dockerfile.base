@@ -1,0 +1,17 @@
+ARG JDK_VERSION=11.0.5-jdk
+
+# ——— Base building image —————————————————————————————————————————————————————
+FROM openjdk:${JDK_VERSION} as base
+
+WORKDIR /code
+COPY *.gradle gradle.* gradlew ./
+COPY gradle ./gradle
+RUN ./gradlew build || return 0
+# Alternatively ...
+# RUN ./gradlew resolveDependencies
+
+COPY spotless.* ./
+COPY src/ src/
+
+COPY src/ src/
+ONBUILD RUN ["./gradlew", "-q", "--no-daemon", "check"]
