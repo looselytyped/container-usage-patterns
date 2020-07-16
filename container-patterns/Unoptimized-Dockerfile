@@ -7,6 +7,7 @@ WORKDIR /code
 COPY *.gradle gradle.* gradlew ./
 COPY gradle ./gradle
 
+# <- UNCOMMENT THIS LINE ->
 # RUN ./gradlew build || return 0
 # Alternatively ...
 # RUN ./gradlew resolveDependencies

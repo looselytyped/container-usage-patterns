@@ -2,7 +2,7 @@ plugins {
   id 'org.springframework.boot' version '2.2.3.RELEASE'
   id 'io.spring.dependency-management' version '1.0.8.RELEASE'
   id 'java'
-  id "com.diffplug.gradle.spotless" version "3.27.1"
+  id "com.diffplug.spotless" version "5.1.0"
 }
 
 group = 'com.looselytyped'
@@ -31,9 +31,7 @@ spotless {
     eclipse().configFile 'spotless.eclipseformat.xml'
   }
   format 'misc', {
-    target fileTree(rootDir) {
-      include '**/*.gradle', '**/*.md', '**/.gitignore'
-    }
+    target '**/*.gradle', '**/*.md', '**/.gitignore'
     indentWithSpaces(2)
     trimTrailingWhitespace()
     endWithNewline()

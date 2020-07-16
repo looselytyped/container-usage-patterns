@@ -1,6 +1,6 @@
 ARG APP_ENV=builder
 ARG JDK_VERSION=11.0.5-jdk
-ARG JRE_VERSION=11.0.5-jdk
+ARG JRE_VERSION=11.0.5-jre
 
 # ——— Base building image —————————————————————————————————————————————————————
 FROM openjdk:${JDK_VERSION} as base

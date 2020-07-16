@@ -22,7 +22,7 @@ docker pull nginx:1.17.7-alpine \
 # in the container cd to /tmp
 / cd tmp
 
-# start anoter container and mount the same volume
+# start another container and mount the same volume
 ❯ docker run -it -v my-vol:/tmp alpine:3.9 sh
 # in the container cd to /tmp
 / cd tmp
@@ -60,13 +60,13 @@ docker run -it --rm --net=my-net alpine:3.9
 
 ## dive
 
-- Build `container-patterns` without any optimizing in `build.gradle`
+- Build `Unoptimized-Dockerfile` without any optimizing in `build.gradle`
 
 ```sh
 ❯ docker build -t demo -f Unoptimized-Dockerfile .
 ```
 
-- Explore the filesystem of `builder` image using:
+- Explore the filesystem of `demo` image using:
 
 ```sh
 ❯ docker run --rm -it \
@@ -74,7 +74,7 @@ docker run -it --rm --net=my-net alpine:3.9
       wagoodman/dive:latest demo
 ```
 
-- Build `container-patterns` by putting the build files first
+- Uncomment the line after `<- UNCOMMENT THIS LINE ->` and then build image again
 - Repeat with `dive`
 
 ## Hadolint
@@ -86,7 +86,7 @@ docker run -it --rm --net=my-net alpine:3.9
 ## Docker From Docker
 
 ```sh
-❯ docker run --rm -it -v /var/run/docker.sock:/var/run/docker.sock ubuntu:19.04
+❯ docker run --rm -it -v /var/run/docker.sock:/var/run/docker.sock ubuntu:20.04
 / # in the container
 / apt update && apt install -y docker.io
 / docker container ls
@@ -97,6 +97,9 @@ docker run -it --rm --net=my-net alpine:3.9
 ```sh
 ❯ cid=$(docker run -d nginx:1.17.7-alpine)
 ❯ docker run -it --pid=container:${cid} alpine:3.9 sh
+# In the container
+$ ps aux
+# Lists the processes from the nginx container
 ```
 
 ## Format
